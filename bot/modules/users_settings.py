@@ -70,19 +70,17 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         lcaption = user_dict.get('lcaption', 'ɴᴏᴛ ᴇxɪsᴛs')
         buttons.ibutton("ʟᴇᴇᴄʜ ᴅᴜᴍᴘ", f"userset {user_id} ldump")
         ldump = 'ɴᴏᴛ ᴇxɪsᴛs' if (val:=user_dict.get('ldump', '')) == '' else val
-        text = f'<b><u>ʟᴇᴇᴄʜ sᴇᴛᴛɪɴɢs ғᴏʀ {name}</u></b>\n\n'
-        text +=  '<b>┌────❪ ᴏᴍɢ × ᴄʟᴏᴜᴅ ❫─────༻</b>\n'
-        text += f'<b>├  ʟᴇᴇᴄʜ ᴛʏᴘᴇ :</b> <code>{ltype}</code>\n'
+        text = f'<b><u>ʟᴇᴇᴄʜ sᴇᴛᴛɪɴɢs ғᴏʀ : {name}</u></b>\n\n'
+        text += f'<b>┌  ʟᴇᴇᴄʜ ᴛʏᴘᴇ :</b> <code>{ltype}</code>\n'
         text += f'<b>├  ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ :</b> <code>{thumbmsg}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ ᴘʀᴇғɪx :</b> <code>{prefix}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ sᴜғғɪx :</b> <code>{suffix}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ :</b> <code>{escape(lcaption)}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ ᴅᴜᴍᴘ :</b> <code>{ldump}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ sᴘʟɪᴛ sɪᴢᴇ : </b> <code>{split_size}</code>\n'        
-        text += f'<b>└  ʀᴇᴍɴᴀᴍᴇ : </b> <code>{remname}</code>\n\n~ ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ - <a href="https://t.me/Hari_OP">ʜᴀʀɪ ᠰ ᴛɢ​</a>'
-        #tect +=  '<b></b>'
-        """if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
-            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")"""
+        text += f'<b>└  ʀᴇᴍɴᴀᴍᴇ : <code>{remname}</code>\n\n~ ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ - <a href="https://t.me/Hari_OP">ʜᴀʀɪ ᠰ ᴛɢ​</a></b>'
+        if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
+            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
         buttons.ibutton("⥢ ʙᴀᴄᴋ", f"userset {user_id} back", "footer")
         buttons.ibutton("ᴄʟᴏsᴇ ↻", f"userset {user_id} close", "footer")
         button = buttons.build_menu(2)
