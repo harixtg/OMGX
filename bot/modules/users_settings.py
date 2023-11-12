@@ -45,6 +45,8 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         #buttons.ibutton("Universal", f"userset {user_id} universal")
         #buttons.ibutton("Mirror", f"userset {user_id} mirror")
         buttons.ibutton("🔗 𝗟𝗘𝗘𝗖𝗛 𝗦𝗘𝗧𝗧𝗜𝗡𝗚 🔗", f"userset {user_id} leech")
+        text = f'<b>User Settings for {name}</b>'
+        button = buttons.build_menu(1)
         
     elif key == 'leech':
         if user_dict.get('as_doc', False) or 'as_doc' not in user_dict and config_dict['AS_DOCUMENT']:
@@ -74,11 +76,8 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         buttons.ibutton("Leech Dump", f"userset {user_id} ldump")
         ldump = 'Not Exists' if (val:=user_dict.get('ldump', '')) == '' else val
 
-        if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'yt_opt', 'media_group', 'equal_splits', 'split_size', 'rclone', 'thumb', 'as_doc']):
-            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
-        buttons.ibutton("Close", f"userset {user_id} close")
-        text = f'<b>User Settings for {name}</b>'
-        button = buttons.build_menu(2)
+        """if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'yt_opt', 'media_group', 'equal_splits', 'split_size', 'rclone', 'thumb', 'as_doc']):
+            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")"""
 
         text = f'<b>Leech Settings for {name}</b>\n\n'
         text += f'<b>• Leech Type:</b> {ltype}\n'
