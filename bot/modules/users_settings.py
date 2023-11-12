@@ -46,34 +46,6 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         #buttons.ibutton("Mirror", f"userset {user_id} mirror")
         buttons.ibutton("🔗 𝗟𝗘𝗘𝗖𝗛 𝗦𝗘𝗧𝗧𝗜𝗡𝗚 🔗", f"userset {user_id} leech")
         
-    elif key == 'universal':
-        buttons.ibutton("YT-DLP Options", f"userset {user_id} yt_opt")
-        ytopt = 'Not Exists' if (val:=user_dict.get('yt_opt', config_dict.get('YT_DLP_OPTIONS', ''))) == '' else val
-        
-
-
-        text = f'<b>Universal Settings for {name}</b>\n\n'
-        text += f'<b>• YT-DLP Options:</b> <b><code>{ytopt}</code></b>\n'
-        text += f'<b>• Prefix:</b> <code>{prefix}</code>\n'
-        text += f'<b>• Suffix:</b> <code>{suffix}</code>\n'
-        text += f'<b>• Remname:</b> <code>{remname}</code>'
-        buttons.ibutton("Back", f"userset {user_id} back", "footer")
-        buttons.ibutton("Close", f"userset {user_id} close", "footer")
-        button = buttons.build_menu(2)
-    elif key == 'mirror':
-        buttons.ibutton("RClone", f"userset {user_id} rcc")
-        rccmsg = "Exists" if await aiopath.exists(rclone_path) else "Not Exists"
-        tds_mode = "Enabled" if user_dict.get('td_mode') else "Disabled"
-        user_tds = len(val) if (val := user_dict.get('user_tds', False)) else 0
-        buttons.ibutton("User TDs", f"userset {user_id} user_tds")
-
-        text = f'<b>Mirror Settings for {name}</b>\n\n'
-        text += f'<b>• Rclone Config:</b> {rccmsg}\n'
-        text += f'<b>• User TD Mode:</b> {tds_mode}'
-
-        buttons.ibutton("Back", f"userset {user_id} back", "footer")
-        buttons.ibutton("Close", f"userset {user_id} close", "footer")
-        button = buttons.build_menu(2)
     elif key == 'leech':
         if user_dict.get('as_doc', False) or 'as_doc' not in user_dict and config_dict['AS_DOCUMENT']:
             ltype = "DOCUMENT"
@@ -316,7 +288,7 @@ async def edit_user_settings(client, query):
     user_dict = user_data.get(user_id, {})
     if user_id != int(data[1]):
         await query.answer("Not Yours!", show_alert=True)
-    elif data[2] in ['universal', 'mirror', 'leech']:
+    elif data[2] in ['leech']:
         await query.answer()
         await update_user_settings(query, data[2])
     elif data[2] == "doc":
