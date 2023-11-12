@@ -42,8 +42,6 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
     rclone_path = f'tanha/{user_id}.conf'
     user_dict = user_data.get(user_id, {})
     if key is None:
-        #buttons.ibutton("Universal", f"userset {user_id} universal")
-        #buttons.ibutton("Mirror", f"userset {user_id} mirror")
         buttons.ibutton("🔗 𝗟𝗘𝗘𝗖𝗛 𝗦𝗘𝗧𝗧𝗜𝗡𝗚 🔗", f"userset {user_id} leech")
         text = f'<b>User Settings for {name}</b>'
         button = buttons.build_menu(1)
@@ -76,9 +74,6 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         buttons.ibutton("Leech Dump", f"userset {user_id} ldump")
         ldump = 'Not Exists' if (val:=user_dict.get('ldump', '')) == '' else val
 
-        """if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'yt_opt', 'media_group', 'equal_splits', 'split_size', 'rclone', 'thumb', 'as_doc']):
-            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")"""
-
         text = f'<b>Leech Settings for {name}</b>\n\n'
         text += f'<b>• Leech Type:</b> {ltype}\n'
         text += f'<b>• Custom Thumbnail:</b> {thumbmsg}\n'
@@ -90,6 +85,8 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         text += f'<b>• Suffix:</b> <code>{suffix}</code>\n'
         text += f'<b>• Remname:</b> <code>{remname}</code>'
 
+       if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'yt_opt', 'media_group', 'equal_splits', 'split_size', 'rclone', 'thumb', 'as_doc']):
+            buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
         buttons.ibutton("Back", f"userset {user_id} back", "footer")
         buttons.ibutton("Close", f"userset {user_id} close", "footer")
         button = buttons.build_menu(2)
