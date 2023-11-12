@@ -79,8 +79,8 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         text += f'<b>├  ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ :</b> <code>{escape(lcaption)}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ ᴅᴜᴍᴘ :</b> <code>{ldump}</code>\n'
         text += f'<b>├  ʟᴇᴇᴄʜ sᴘʟɪᴛ sɪᴢᴇ : </b> <code>{split_size}</code>\n'        
-        text += f'<b>└  ʀᴇᴍɴᴀᴍᴇ : </b> <code>{remname}</code>\n\n'
-        tect += f'<b>~ ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ - <a href="https://t.me/Hari_OP">ʜᴀʀɪ ᠰ ᴛɢ​</a></b>'
+        text += f'<b>└  ʀᴇᴍɴᴀᴍᴇ : </b> <code>{remname}</code>\n\n~ ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ - <a href="https://t.me/Hari_OP">ʜᴀʀɪ ᠰ ᴛɢ​</a>'
+        #tect +=  '<b></b>'
         """if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
             buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")"""
         buttons.ibutton("⥢ ʙᴀᴄᴋ", f"userset {user_id} back", "footer")
