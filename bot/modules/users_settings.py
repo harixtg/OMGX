@@ -44,7 +44,7 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
     user_dict = user_data.get(user_id, {})
     if key is None:
         buttons.ibutton("🔗 𝗟𝗘𝗘𝗖𝗛 𝗦𝗘𝗧𝗧𝗜𝗡𝗚 🔗", f"userset {user_id} leech")
-        buttons.ibutton("⤬ ᴄʟᴏsᴇ ⤬", f"userset {user_id} close")
+        buttons.ibutton("⤬ 𝗖𝗟𝗢𝗦𝗘 ⤬", f"userset {user_id} close")
         text = script.USER_SETTINGS_TEXT.format(name, f'@{from_user.username}', user_id, from_user.language_code, from_user.dc_id)
         button = buttons.build_menu(1)
         
@@ -71,18 +71,20 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         buttons.ibutton("ʟᴇᴇᴄʜ ᴅᴜᴍᴘ", f"userset {user_id} ldump")
         ldump = 'ɴᴏᴛ ᴇxɪsᴛs' if (val:=user_dict.get('ldump', '')) == '' else val
         text = f'<b><u>ʟᴇᴇᴄʜ sᴇᴛᴛɪɴɢs ғᴏʀ {name}</u></b>\n\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ ᴛʏᴘᴇ :</b> <code>{ltype}</code>\n'
-        text += f'<b>‣ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ :</b> <code>{thumbmsg}</code>\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ ᴘʀᴇғɪx :</b> <code>{prefix}</code>\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ sᴜғғɪx :</b> <code>{suffix}</code>\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ :</b> <code>{escape(lcaption)}</code>\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ ᴅᴜᴍᴘ :</b> <code>{ldump}</code>\n'
-        text += f'<b>‣ ʟᴇᴇᴄʜ sᴘʟɪᴛ sɪᴢᴇ :</b> <code>{split_size}</code>\n'        
-        text += f'<b>‣ ʀᴇᴍɴᴀᴍᴇ :</b> <code>{remname}</code>\n'      
+        text += f'<b>┌────❪ ᴏᴍɢ × ᴄʟᴏᴜᴅ ❫─────༻</b>\n"
+        text += f'<b>├  ʟᴇᴇᴄʜ ᴛʏᴘᴇ :</b> <code>{ltype}</code>\n'
+        text += f'<b>├  ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ :</b> <code>{thumbmsg}</code>\n'
+        text += f'<b>├  ʟᴇᴇᴄʜ ᴘʀᴇғɪx :</b> <code>{prefix}</code>\n'
+        text += f'<b>├  ʟᴇᴇᴄʜ sᴜғғɪx :</b> <code>{suffix}</code>\n'
+        text += f'<b>├  ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ :</b> <code>{escape(lcaption)}</code>\n'
+        text += f'<b>├  ʟᴇᴇᴄʜ ᴅᴜᴍᴘ :</b> <code>{ldump}</code>\n'
+        text += f'<b>├  ʟᴇᴇᴄʜ sᴘʟɪᴛ sɪᴢᴇ : </b> <code>{split_size}</code>\n'        
+        text += f'<b>└  ʀᴇᴍɴᴀᴍᴇ : </b> <code>{remname}</code>\n\n'
+        tect += f'<b>~ ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ - <a href="https://t.me/Hari_OP">ʜᴀʀɪ ᠰ ᴛɢ​</a></b>'
         if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
             buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
-        buttons.ibutton("Back", f"userset {user_id} back", "footer")
-        buttons.ibutton("Close", f"userset {user_id} close", "footer")
+        buttons.ibutton("⥢ ʙᴀᴄᴋ", f"userset {user_id} back", "footer")
+        buttons.ibutton("ᴄʟᴏsᴇ ↻", f"userset {user_id} close", "footer")
         button = buttons.build_menu(2)
     elif edit_type:
         text = f"<b><u>{fname_dict[key]} Settings :</u></b>\n\n"
