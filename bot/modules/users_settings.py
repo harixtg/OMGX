@@ -151,13 +151,11 @@ async def user_settings(client, message):
     if not ospath.exists(thumbnail):
         thumbnail = 'https://graph.org/file/4a23820398e62ec753cc0.jpg'
     myrr = await message.reply_sticker("CAACAgIAAxkBAAEMymtlUOMCEYuaeaRXYN8vW1J8bnm2NAACrQ0AAqyZIEjdinfy_Yf5cB4E")
-    x = await sendMessage(message, msg, button, thumbnail)
-    await five_minute_del(message)
     await asyncio.sleep(2)
-    await deleteMessage(x)
     await myrr.delete()
     await message.delete()
-    
+    x = await sendMessage(message, msg, button, thumbnail)
+    await five_minute_del(message)    
 
 
 async def set_yt_options(client, message, pre_event):
