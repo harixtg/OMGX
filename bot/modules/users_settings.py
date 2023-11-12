@@ -85,7 +85,7 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         text += f'<b>• Suffix:</b> <code>{suffix}</code>\n'
         text += f'<b>• Remname:</b> <code>{remname}</code>'
 
-       if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'yt_opt', 'media_group', 'equal_splits', 'split_size', 'rclone', 'thumb', 'as_doc']):
+       if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
             buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
         buttons.ibutton("Back", f"userset {user_id} back", "footer")
         buttons.ibutton("Close", f"userset {user_id} close", "footer")
