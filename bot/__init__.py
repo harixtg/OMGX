@@ -50,6 +50,7 @@ status_reply_dict_lock = Lock()
 queue_dict_lock = Lock()
 qb_listener_lock = Lock()
 status_reply_dict = {}
+bot_cache = {}
 download_dict = {}
 rss_dict = {}
 
