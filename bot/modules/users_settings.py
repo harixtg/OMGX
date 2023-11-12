@@ -11,6 +11,7 @@ from functools import partial
 from html import escape
 from io import BytesIO
 from asyncio import sleep
+from Script import script
 
 from bot import OWNER_ID, bot, user_data, config_dict, DATABASE_URL, IS_PREMIUM_USER, MAX_SPLIT_SIZE
 from bot.helper.telegram_helper.message_utils import sendMessage, sendCustomMsg, editMessage, deleteMessage, sendFile, chat_info, user_info, five_minute_del
@@ -23,16 +24,16 @@ from bot.helper.ext_utils.text_utils import uset_display_dict
 from bot.helper.ext_utils.bot_utils import update_user_ldata, get_readable_file_size, sync_to_async, new_thread, is_gdrive_link
 
 handler_dict = {}
-fname_dict = {'rcc': 'RClone',
-              'prefix': 'Prefix',
-              'suffix': 'Suffix',
-              'remname': 'Remname',
-              'ldump': 'Dump',
-              'user_tds': 'User Custom TDs',
-              'lcaption': 'Caption',
-              'thumb': 'Thumbnail',
-              'yt_opt': 'YT-DLP Options',
-              'split_size': 'Leech Splits'}
+fname_dict = {'rcc': 'ʀᴄʟᴏɴᴇ',
+              'prefix': 'ᴘʀᴇғɪx',
+              'suffix': 'sᴜғғɪx',
+              'remname': 'ʀᴇᴍɴᴀᴍᴇ',
+              'ldump': 'ᴅᴜᴍᴘ',
+              'user_tds': 'ᴜsᴇʀ ᴄᴜsᴛᴏᴍ ᴛᴅs',
+              'lcaption': 'ᴄᴀᴘᴛɪᴏɴ',
+              'thumb': 'ᴛʜᴜᴍʙɴᴀɪʟ',
+              'yt_opt': 'ʏᴛ-ᴅʟᴘ ᴏᴘᴛɪᴏɴs',
+              'split_size': 'ʟᴇᴇᴄʜ sᴘʟɪᴛs'}
 
 async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None):
     user_id = from_user.id
@@ -43,49 +44,42 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
     user_dict = user_data.get(user_id, {})
     if key is None:
         buttons.ibutton("🔗 𝗟𝗘𝗘𝗖𝗛 𝗦𝗘𝗧𝗧𝗜𝗡𝗚 🔗", f"userset {user_id} leech")
-        text = f'<b>User Settings for {name}</b>'
+        buttons.ibutton("⤬ ᴄʟᴏsᴇ ⤬", f"userset {user_id} close")
+        text = script.USER_SETTINGS_TEXT.format(name, f'@{from_user.username}', user_id, from_user.language_code, from_user.dc_id)
         button = buttons.build_menu(1)
         
     elif key == 'leech':
         if user_dict.get('as_doc', False) or 'as_doc' not in user_dict and config_dict['AS_DOCUMENT']:
-            ltype = "DOCUMENT"
-            buttons.ibutton("Send As Media", f"userset {user_id} doc")
+            ltype = "ᴅᴏᴄᴜᴍᴇɴᴛ"
+            buttons.ibutton("sᴇᴛ ᴍᴇᴅɪᴀ", f"userset {user_id} doc")
         else:
-            ltype = "MEDIA"
-            buttons.ibutton("Send As Document", f"userset {user_id} doc")
-
-        buttons.ibutton("Thumbnail", f"userset {user_id} thumb")
-        thumbmsg = "Exists" if await aiopath.exists(thumbpath) else "Not Exists"
-        buttons.ibutton("Prefix", f"userset {user_id} prefix")
-        prefix = user_dict.get('prefix', 'Not Exists')
-
-        buttons.ibutton("Suffix", f"userset {user_id} suffix")
-        suffix = user_dict.get('suffix', 'Not Exists')
-
-        buttons.ibutton("Remname", f"userset {user_id} remname")
-        remname = user_dict.get('remname', 'Not Exists')
-        buttons.ibutton("Leech Splits", f"userset {user_id} split_size")
+            ltype = "ᴍᴇᴅɪᴀ"
+            buttons.ibutton("sᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛ", f"userset {user_id} doc")
+        buttons.ibutton("ᴛʜᴜᴍʙɴᴀɪʟ", f"userset {user_id} thumb")
+        thumbmsg = "ᴇxɪsᴛs" if await aiopath.exists(thumbpath) else "ɴᴏᴛ ᴇxɪsᴛs"
+        buttons.ibutton("sᴇᴛ ᴘʀᴇғɪx", f"userset {user_id} prefix")
+        prefix = user_dict.get('prefix', 'ɴᴏᴛ ᴇxɪsᴛs')
+        buttons.ibutton("sᴇᴛ sᴜғғɪx", f"userset {user_id} suffix")
+        suffix = user_dict.get('suffix', 'ɴᴏᴛ ᴇxɪsᴛs')      
+        buttons.ibutton("ʀᴇᴍɴᴀᴍᴇ", f"userset {user_id} remname")
+        remname = user_dict.get('remname', 'ɴᴏᴛ ᴇxɪsᴛs')
+        buttons.ibutton("ʟᴇᴄᴄʜ sᴘʟɪᴛs", f"userset {user_id} split_size")
         split_size = get_readable_file_size(config_dict['LEECH_SPLIT_SIZE']) + ' (Default)' if user_dict.get('split_size', '') == '' else get_readable_file_size(user_dict['split_size'])
-        equal_splits = 'Enabled' if user_dict.get('equal_splits', config_dict.get('EQUAL_SPLITS')) else 'Disabled' 
-
-        buttons.ibutton("Leech Caption", f"userset {user_id} lcaption")
-        lcaption = user_dict.get('lcaption', 'Not Exists')
-
-        buttons.ibutton("Leech Dump", f"userset {user_id} ldump")
-        ldump = 'Not Exists' if (val:=user_dict.get('ldump', '')) == '' else val
-
-        text = f'<b>Leech Settings for {name}</b>\n\n'
-        text += f'<b>• Leech Type:</b> {ltype}\n'
-        text += f'<b>• Custom Thumbnail:</b> {thumbmsg}\n'
-        text += f'<b>• Leech Split Size:</b> <code>{split_size}</code>\n'
-        text += f'<b>• Equal Splits:</b> {equal_splits}\n'
-        text += f'<b>• Leech Caption:</b> <code>{escape(lcaption)}</code>\n'
-        text += f'<b>• Leech Dump:</b> <code>{ldump}</code>\n'
-        text += f'<b>• Prefix:</b> <code>{prefix}</code>\n'
-        text += f'<b>• Suffix:</b> <code>{suffix}</code>\n'
-        text += f'<b>• Remname:</b> <code>{remname}</code>'
-
-       if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
+        equal_splits = 'ᴇɴᴀʙʟᴇᴅ' if user_dict.get('equal_splits', config_dict.get('EQUAL_SPLITS')) else 'ᴅɪsᴀʙʟᴇᴅ'     
+        buttons.ibutton("ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ", f"userset {user_id} lcaption")
+        lcaption = user_dict.get('lcaption', 'ɴᴏᴛ ᴇxɪsᴛs')
+        buttons.ibutton("ʟᴇᴇᴄʜ ᴅᴜᴍᴘ", f"userset {user_id} ldump")
+        ldump = 'ɴᴏᴛ ᴇxɪsᴛs' if (val:=user_dict.get('ldump', '')) == '' else val
+        text = f'<b><u>ʟᴇᴇᴄʜ sᴇᴛᴛɪɴɢs ғᴏʀ {name}</u></b>\n\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ ᴛʏᴘᴇ :</b> <code>{ltype}</code>\n'
+        text += f'<b>‣ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ :</b> <code>{thumbmsg}</code>\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ ᴘʀᴇғɪx :</b> <code>{prefix}</code>\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ sᴜғғɪx :</b> <code>{suffix}</code>\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ ᴄᴀᴘᴛɪᴏɴ :</b> <code>{escape(lcaption)}</code>\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ ᴅᴜᴍᴘ :</b> <code>{ldump}</code>\n'
+        text += f'<b>‣ ʟᴇᴇᴄʜ sᴘʟɪᴛ sɪᴢᴇ :</b> <code>{split_size}</code>\n'        
+        text += f'<b>‣ ʀᴇᴍɴᴀᴍᴇ :</b> <code>{remname}</code>\n'      
+        if user_dict and any(key in user_dict for key in ['prefix', 'suffix', 'remname', 'ldump', 'equal_splits', 'thumb', 'as_doc']):
             buttons.ibutton("Reset Setting", f"userset {user_id} reset_all")
         buttons.ibutton("Back", f"userset {user_id} back", "footer")
         buttons.ibutton("Close", f"userset {user_id} close", "footer")
@@ -102,7 +96,7 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
             set_exist = 'Not Exists' if (val:=user_dict.get('yt_opt', config_dict.get('YT_DLP_OPTIONS', ''))) == '' else val
             text += f"<b>YT-DLP Options :</b> <code>{escape(set_exist)}</code>\n\n"
         elif key == 'split_size':
-            set_exist = get_readable_file_size(config_dict['LEECH_SPLIT_SIZE']) + ' (Default)' if user_dict.get('split_size', '') == '' else get_readable_file_size(user_dict['split_size'])
+            set_exist = get_readable_file_size(config_dict['LEECH_SPLIT_SIZE']) + ' (Default)' if user_dict.get('split_size', '') == '' else get_readable_file_size(user_dict['split_sie'])
             text += f"<b>Leech Split Size :</b> {set_exist}\n\n"
             if user_dict.get('equal_splits', False) or ('equal_splits' not in user_dict and config_dict['EQUAL_SPLITS']):
                 buttons.ibutton("Disable Equal Splits", f"userset {user_id} esplits", "header")
